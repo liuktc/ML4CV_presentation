@@ -36,7 +36,7 @@ class ExampleScene(SlideTemplate):
         title.construct(
             title_str="Computer Vision Explainability",
             name="Luca Domeniconi",
-            date_text="April 18, 2025",
+            date_text="April 24, 2025",
         )
 
         self.wait_time_between_slides = 0.1

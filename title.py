@@ -71,4 +71,6 @@ class Title(MySlide):
             Unwrite(author),
             Unwrite(university),
             Unwrite(date),
+            *[Unwrite(s) for s in supervisors],
+            Unwrite(supervisors_title),
         )
