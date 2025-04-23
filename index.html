@@ -1,0 +1,608 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Manim Slides</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.0/theme/black.min.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <!-- <link rel="stylesheet" href="lib/css/zenburn.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/zenburn.min.css">
+    <!-- <link rel="stylesheet" href="index.css"> -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        onValue,
+        set,
+        onDisconnect,
+        serverTimestamp,
+      } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBYPPueVwyJRV105mwtmKPy3eryMHLG76M",
+        authDomain: "ml4cv-xai-presentation.firebaseapp.com",
+        databaseURL:
+          "https://ml4cv-xai-presentation-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "ml4cv-xai-presentation",
+        storageBucket: "ml4cv-xai-presentation.appspot.com",
+        messagingSenderId: "942472159177",
+        appId: "1:942472159177:web:218aeaada913f854c01218",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      // Reveal.initialize();
+
+      const isPresenter = window.location.hash.includes("presenter");
+      const slideRef = ref(db, "slides/sync");
+
+      if (isPresenter) {
+        Reveal.on("slidechanged", (event) => {
+          set(slideRef, {
+            h: event.indexh,
+            v: event.indexv || 0,
+            f: Reveal.getIndices().f || 0,
+          });
+        });
+
+        const viewersRef = ref(db, 'viewers');
+        const viewerCountElement = document.getElementById('viewer-count');
+
+        onValue(viewersRef, (snapshot) => {
+          const viewerCount = snapshot.size; // Number of connected viewers
+          viewerCountElement.textContent = `Viewers: ${viewerCount}`;
+        });
+      } else {
+        const viewerId = `viewer_${Math.random().toString(36).substr(2, 9)}`;
+        const viewerRef = ref(db, `viewers/${viewerId}`);
+
+        // Add viewer to the database
+        set(viewerRef, {
+          connectedAt: serverTimestamp(),
+        });
+
+        // Remove viewer from the database upon disconnection
+        onDisconnect(viewerRef).remove();
+
+        // Remove div with the viewer count
+        const viewerCountElement = document.getElementById('viewer-count');
+        viewerCountElement.parentNode.removeChild(viewerCountElement);
+
+        onValue(slideRef, (snapshot) => {
+          const data = snapshot.val();
+          if (data) {
+            const { h, v, f } = data;
+            const current = Reveal.getIndices();
+            if (h !== current.h || v !== current.v || f !== (current.f || 0)) {
+              Reveal.slide(h, v, f);
+            }
+          }
+        });
+      }
+    </script>
+  </head>
+
+  <body>
+    <div id="viewer-count">Viewers: 0</div>
+    <div class="reveal">
+      <div class="slides">
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\748f5a40db2b0fc2058be2dea629f5ea04b235bd1c2348b886097109172de6b9.mp4"
+          data-background-video-muted
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\61da3106e7719b58308940142bbb4ceb4158ed78faeba2695754483e14c1be98.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\1f5d316bb2af261460b4a1ce136b4780f4eae77ae1905978f168590e9b3d926a.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\89e2100596dc8b01daecdaffa6ddaaf5fa361cd6507e4aa139e323e5245b9b12.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\7aaa138fc9bc4be15a6728eeee905e3ef313f299c1a183ae46373fc8e2496d78.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\46f8736a1e3d6fb46bf0dfdb58888deac70809c04ea931c372ead4d5db71326e.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\eb7ccde0cfa756d2ac646c68b6a589cf7f5ebd948ede9e254078984e2e3a5a6f.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\a76f7efbe0243aff53e3deee6a4386c8bc1a2991929d48bf953dc5f1673cdc66.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\27f2b38e9519d4a8eee6ca230d699069a8b507c4cf056d12703456d482f17888.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\a3f4ea42df05a3d91ffdf30381da70c02ef2353fa64b20ffa9c5f197433624d9.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\fbe5cbbde0782d27450c50da5ebafaf47b897ba541ed63310d9900cefdf9f3ba.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\f4ed29b8fe593e5b0c3672bfb302120fac9e921a2455ee039bfd9a06bafb9e6f.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\b38bce83732e6885a0f7f7c7b68b0631d359c177c475f112f787c81d6fbe7a1e.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\9edf55ab560a05f74cfafca37fb2ba5fa5a8852d870217b55a01d40670d750dd.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\5fe6a553d5b94887334b1c69f2f7ef36fe1fc8ea1587bacbd11800d40a9e26fa.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\6419667294c8d094918dbb8058f2aaa0e90c48dcbbda826af3b0da07924e7dfa.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\329e46a3f97e22a14be8d8556cb4365cf768ba4b8b174432185f09e76d7501ef.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\c5afc157cb175a90cb5ae28fda2832e8aa0fb183261924d3eac7414de47bb1b4.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\fe0a8318f46c62f2777002c80f04cd515f9b5eef58332efd28f4e05426245a26.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\f173d499a9e9dadfbd235b58bb8ca3b679dacf3347da9540854b63bc5e364cc7.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\52e7c1b4883ec86f865ce5cb2f0526588dcaf17cc5540dcbe91ab911701bfb5b.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\0fce1f02a728aaa0a4772f700e75f786be202ca56d76d2d77266593462b57d46.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\896882013a3c939cfbf8b98b9d97f7666085e1285749dc07da024237eeb719ff.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\ce329eb39b5de2db6a30907eb71f82fbbe5ed109a49c26b62f920f19a8741278.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\41657f124d2c2edebe1943359d365e3ae83161c99a483e61549af34566ca31e4.mp4"
+          data-background-video-loop
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\6c496c8dd926ad3c64dad0c99d7fcb474ee95d8a28a9c1c0c2fec58d1c5f369a.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\366d20b1844061fa2b2b711da2d271a67604023beeed72b66fe727b6a639dac4.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\9726ef7889d03d079c07f6fb75ebadb2a94b406c67e8867a72e532ae2b978df5.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\dc736d1b443dfe8d89090e8729ae8a72c58ed159bb215a1452849d40585c5fcc.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\755757d76ad3e8262fb420674bee2dd6c432657ddfddda69be726d50f0674155.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\1f76e21816856d40a1866ffe2599eafd94644f5b66073cecd7fdcca2531a1844.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\c278b93e9d508db8c1748cfbe2f595afbcb6f66b662f7961b38b6750049fe0bb.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\033830271dae75decf08582f4a492d77553cdf2f3a923d4d7d9f7415d5bc6231.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\3253d1cc7ff4e12014fbd79505277e6559e319907909c00255b46e8d422c5493.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\e5b1a6ae93f2f65ad40d9a5a6c194d0ca7d89a145d864f4d2439eea9780c42a1.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\abbf11528aad939e0660107a9b5a5e18944e7a7042bdf233c8df9f5f9e992118.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\28cd9e5c3c0f91a5eb04574283346adf8d5015f4df6d9aaa15577f4f96c64f52.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\a29e5a976c5c99877c3d3ffcd464252db635af3c1a018ad49514850c776d4ca6.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\1b0c7cfa3f33ebe6fed2b2e6329a0c47b241377bdc164b347470f0f48bbbd5d8.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\91816afcde0651107a6291549dc974ad979dd66bee096e0a432118e04c8a0511.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\e33c840392468bf4ddf2886889c590f1a6f2190e98ed1df7e7d285810a275052.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\20b5a5db36b44e62454e5ed72b4273272cee4e7f656241b798ab0d2b4cc5d775.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\6a58b908f403694a6c7209151bc7148fcd4235f27bc627b7b65d74cb85b3e652.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\2b2aba6e109ad9f786a4d71e2897be7dddaf19cfbaf98287542ef016c645e69c.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\b57ec0a34a55e119e59c3b283626dc2bd11f26a2cc0e1ba3426aa9e9c89a0dae.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\90ab7b02039921b5337cefdc4be40fc5aacdf2adec6d3ac8c4154a868320f7ac.mp4"
+          >
+        </section>
+        <section
+          data-background-size='contain'
+          data-background-color="black"
+          data-background-video="index_assets\1b0077821ff7ac09037a066a7bf6b00aa72271a9c4b0c990146a072f97e6fe2e.mp4"
+          >
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.0/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.0/plugin/notes/notes.min.js"></script>
+
+    <!-- To include plugins, see: https://revealjs.com/plugins/ -->
+
+    <!-- <script src="index.js"></script> -->
+    <script>
+      Reveal.initialize({
+        // The "normal" size of the presentation, aspect ratio will
+        // be preserved when the presentation is scaled to fit different
+        // resolutions. Can be specified using percentage units.
+        width: '100%',
+        height: '100%',
+        // Factor of the display size that should remain empty around
+        // the content
+        margin: 0.04,
+        // Bounds for smallest/largest possible scale to apply to content
+        minScale: 0.2,
+        maxScale: 2.0,
+        // Display presentation control arrows
+        controls: false,
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+        // Display a presentation progress bar
+        progress: false,
+        // Display the page number of the current slide
+        // - true:    Show slide number
+        // - false:   Hide slide number
+        //
+        // Can optionally be set as a string that specifies the number formatting:
+        // - "h.v":   Horizontal . vertical slide number (default)
+        // - "h/v":   Horizontal / vertical slide number
+        // - "c":   Flattened slide number
+        // - "c/t":   Flattened slide number / total slides
+        //
+        // Alternatively, you can provide a function that returns the slide
+        // number for the current slide. The function should take in a slide
+        // object and return an array with one string [slideNumber] or
+        // three strings [n1,delimiter,n2]. See #formatSlideNumber().
+        slideNumber: false,
+        // Can be used to limit the contexts in which the slide number appears
+        // - "all":      Always show the slide number
+        // - "print":    Only when printing to PDF
+        // - "speaker":  Only in the speaker view
+        showSlideNumber: 'all',
+        // Use 1 based indexing for # links to match slide number (default is zero
+        // based)
+        hashOneBasedIndex: false,
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: false,
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: false,
+        // Enable support for jump-to-slide navigation shortcuts
+        jumpToSlide: true,
+        // Push each slide change to the browser history.  Implies `hash: true`
+        history: false,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Optional function that blocks keyboard events when retuning false
+        //
+        // If you set this to 'focused', we will only capture keyboard events
+        // for embedded decks when they are in focus
+        keyboardCondition: null,
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: true,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Loop the presentation
+        loop: false,
+        // Change the presentation direction to be RTL
+        rtl: false,
+        // Changes the behavior of our navigation directions.
+        //
+        // "default"
+        // Left/right arrow keys step between horizontal slides, up/down
+        // arrow keys step between vertical slides. Space key steps through
+        // all slides (both horizontal and vertical).
+        //
+        // "linear"
+        // Removes the up/down arrows. Left/right arrows step through all
+        // slides (both horizontal and vertical).
+        //
+        // "grid"
+        // When this is enabled, stepping left/right from a vertical stack
+        // to an adjacent vertical stack will land you at the same vertical
+        // index.
+        //
+        // Consider a deck with six slides ordered in two vertical stacks:
+        // 1.1    2.1
+        // 1.2    2.2
+        // 1.3    2.3
+        //
+        // If you're on slide 1.3 and navigate right, you will normally move
+        // from 1.3 -> 2.1. If "grid" is used, the same navigation takes you
+        // from 1.3 -> 2.3.
+        navigationMode: 'default',
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+        // Flags if we should show a help overlay when the question-mark
+        // key is pressed
+        help: true,
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+        // Global override for autolaying embedded media (video/audio/iframe)
+        // - null:   Media will only autoplay if data-autoplay is present
+        // - true:   All media will autoplay, regardless of individual setting
+        // - false:  No media will autoplay, regardless of individual setting
+        autoPlayMedia: null,
+        // Global override for preloading lazy-loaded iframes
+        // - null:   Iframes with data-src AND data-preload will be loaded when within
+        //           the viewDistance, iframes with only data-src will be loaded when visible
+        // - true:   All iframes with data-src will be loaded when within the viewDistance
+        // - false:  All iframes with data-src will be loaded only when visible
+        preloadIframes: null,
+        // Can be used to globally disable auto-animation
+        autoAnimate: true,
+        // Optionally provide a custom element matcher that will be
+        // used to dictate which elements we can animate between.
+        autoAnimateMatcher: null,
+        // Default settings for our auto-animate transitions, can be
+        // overridden per-slide or per-element via data arguments
+        autoAnimateEasing: 'ease',
+        autoAnimateDuration: 1.0,
+        autoAnimateUnmatched: true,
+        // CSS properties that can be auto-animated. Position & scale
+        // is matched separately so there's no need to include styles
+        // like top/right/bottom/left, width/height or margin.
+        autoAnimateStyles: ['opacity', 'color', 'background-color', 'padding', 'font-size', 'line-height', 'letter-spacing', 'border-width', 'border-color', 'border-radius', 'outline', 'outline-offset'],
+        // Controls automatic progression to the next slide
+        // - 0:      Auto-sliding only happens if the data-autoslide HTML attribute
+        //           is present on the current slide or fragment
+        // - 1+:     All slides will progress automatically at the given interval
+        // - false:  No auto-sliding, even if data-autoslide is present
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Use this method for navigation when auto-sliding (defaults to navigateNext)
+        autoSlideMethod: null,
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Opens links in an iframe preview overlay
+        // Add `data-preview-link` and `data-preview-link="false"` to customize each link
+        // individually
+        previewLinks: false,
+        // Exposes the reveal.js API through window.postMessage
+        postMessage: true,
+        // Dispatches all reveal.js events to the parent window through postMessage
+        postMessageEvents: false,
+        // Focuses body when page changes visibility to ensure keyboard shortcuts work
+        focusBodyOnPageVisibilityChange: true,
+        // Transition style
+        transition: 'none', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'none', // none/fade/slide/convex/concave/zoom
+        // The maximum number of pages a single slide can expand onto when printing
+        // to PDF, unlimited by default
+        pdfMaxPagesPerSlide: Number.POSITIVE_INFINITY,
+        // Prints each fragment on a separate slide
+        pdfSeparateFragments: true,
+        // Offset used to reduce the height of content within exported PDF pages.
+        // This exists to account for environment differences based on how you
+        // print to PDF. CLI printing options, like phantomjs and wkpdf, can end
+        // on precisely the total height of the document whereas in-browser
+        // printing has to end one pixel before.
+        pdfPageHeightOffset: -1,
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+        // The display mode that will be used to show slides
+        display: 'block',
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000
+      });
+      // Override SPACE to play / pause the video
+      Reveal.addKeyBinding(
+        {
+          keyCode: 32,
+          key: 'SPACE',
+          description: 'Play / pause video'
+        },
+        () => {
+          var currentVideos = Reveal.getCurrentSlide().slideBackgroundContentElement.getElementsByTagName("video");
+          if (currentVideos.length > 0) {
+            if (currentVideos[0].paused == true) currentVideos[0].play();
+            else currentVideos[0].pause();
+          } else {
+            Reveal.next();
+          }
+        }
+      );
+    </script>
+  </body>
+</html>
