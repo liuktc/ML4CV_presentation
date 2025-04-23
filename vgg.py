@@ -5,6 +5,8 @@ from utils import get_square_corners, right_angle_arrow_custom
 from vgg_model import VGG11_LAYERS, VGGModel
 from templates import SlideTemplate
 
+# from light_theme import *
+
 
 class VGG(MySlide):
     def construct(self):
