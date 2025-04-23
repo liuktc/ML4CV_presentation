@@ -15,7 +15,7 @@ class Upscaling(MySlide):
 
         input_image.scale_to_fit_width(2)
         input_image.to_edge(LEFT, buff=0.5)
-        text = Tex(r"Attribution Map\\$7 \times 7$").scale(0.67)
+        text = Tex(r"Attribution Map\\$7 \times 7$").scale(0.6)
         # text.move_to(input_image.get_top() + 0.2 * UP)
         # Move the text above the image without overlapping
         text.move_to(input_image.get_top() + 0.2 * UP, aligned_edge=DOWN)
@@ -30,7 +30,7 @@ class Upscaling(MySlide):
         upsampled_image.move_to(ORIGIN)
         upsampled_image.to_edge(UP, buff=1)
         upsampled_image.scale_to_fit_width(2)
-        text_1 = Tex(r"Bilinear Upsampling\\$224 \times 224$").scale(0.67)
+        text_1 = Tex(r"Bilinear Upsampling\\$224 \times 224$").scale(0.6)
         text_1.move_to(upsampled_image.get_top() + 0.2 * UP, aligned_edge=DOWN)
         up_1 = Group(upsampled_image, text_1)
 
@@ -43,11 +43,11 @@ class Upscaling(MySlide):
         upsampled_image_2.scale_to_fit_width(2)
         text_2 = Tex(
             r"Effective Receptive Field (ERF)\\Upsampling\\$224 \times 224$"
-        ).scale(0.67)
+        ).scale(0.6)
         text_2.move_to(upsampled_image_2.get_top() + 0.2 * UP, aligned_edge=DOWN)
         up_2 = Group(upsampled_image_2, text_2)
 
-        up = Group(up_1, up_2).arrange(DOWN, buff=1)
+        up = Group(up_1, up_2).arrange(DOWN, buff=0.5)
         up.move_to(ORIGIN).set_y(input_image.get_y())
 
         arrow_1 = Arrow(
@@ -71,7 +71,7 @@ class Upscaling(MySlide):
             BulletedList(
                 r"Fast and efficient", r"Introduces artifacts, loses fine details"
             )
-            .scale(0.67)
+            .scale(0.6)
             .next_to(upsampled_image, RIGHT, buff=0.5)
         )
         description_1.set_color_by_tex("Fast and efficient", GREEN)
@@ -82,7 +82,7 @@ class Upscaling(MySlide):
                 r"Better preserves shapes/small details",
                 r"More computationally expensive",
             )
-            .scale(0.67)
+            .scale(0.6)
             .next_to(upsampled_image_2, RIGHT, buff=0.5)
         )
         description_2.set_color_by_tex("Better preserves shapes/small details", GREEN)
@@ -94,3 +94,17 @@ class Upscaling(MySlide):
         self.p.play(Write(description_2))
         self.p.next_slide()
         # self.wait(1)
+
+        # Fadeout everything
+        self.p.play(
+            FadeOut(input_image),
+            FadeOut(upsampled_image),
+            FadeOut(upsampled_image_2),
+            FadeOut(text),
+            FadeOut(text_1),
+            FadeOut(text_2),
+            FadeOut(description_1),
+            FadeOut(description_2),
+            FadeOut(arrow_1),
+            FadeOut(arrow_2),
+        )
