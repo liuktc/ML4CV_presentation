@@ -2,6 +2,8 @@ from manim import *  # or: from manimlib import *
 import numpy as np
 from my_scene import MySlide
 
+from settings import *
+
 
 class LayerMixingTable(MySlide):
     def construct(self):

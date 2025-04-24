@@ -2,6 +2,8 @@ from manim import *  # or: from manimlib import *
 from manim_slides import Slide
 from my_scene import MySlide
 
+from settings import *
+
 
 class SlideTemplate(MySlide):
     def __init__(

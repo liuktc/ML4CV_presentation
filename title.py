@@ -2,8 +2,10 @@ import numpy as np
 from my_scene import MySlide
 from manim import *
 
+from settings import *
 
-class Title(MySlide):
+
+class TitleSlide(MySlide):
     def construct(
         self,
         title_str="Title of the Slide",

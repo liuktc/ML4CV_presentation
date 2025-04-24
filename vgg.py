@@ -6,6 +6,7 @@ from vgg_model import VGG11_LAYERS, VGGModel
 from templates import SlideTemplate
 
 # from light_theme import *
+from settings import *
 
 
 class VGG(MySlide):
@@ -137,21 +138,35 @@ class VGG(MySlide):
         ]
 
         texts = [
-            r"Low spatial resolution.\\Attention to high level concepts.",
-            r"High spatial resolution.\\Attention to small level details.",
+            (
+                r"Low spatial resolution.",
+                r"Attention to high level concepts.",
+                r"Require upsampling and often\\ miss fine-grained details.",
+            ),
+            (
+                r"High spatial resolution.",
+                r"Attention to small level details.",
+                r"Noisy if not processed.",
+            ),
         ]
         top_texts = []
         bottom_texts = []
         arrows = []
         for i in range(2):
-            image = ImageMobject(
-                f"./images/attribution_map_layer_{20 if i == 0 else 5}.png"
-            )
-            # image.scale(0.5)
-            if len(images) > 0:
-                image.next_to(images[-1], RIGHT, buff=0.5)
+            if i == 0:
+                image = ImageMobject(
+                    f"./images/attribution_map_layer_20_bilinearUpsampling_small.png"
+                ).scale_to_fit_width(2)
             else:
-                image.to_edge(LEFT)
+                image = ImageMobject(
+                    f"./images/attribution_map_layer_5.png"
+                ).scale_to_fit_width(2)
+            image.set_resampling_algorithm(RESAMPLING_ALGORITHMS["nearest"])
+            # image.scale(0.5)
+            # if len(images) > 0:
+            # image.next_to(images[-1], RIGHT, buff=0.5)
+            # else:
+            # image.to_edge(LEFT)
 
             top_text = Tex(descriptions[i]).scale(0.6)
             top_text.move_to(image.get_top() + 0.2 * UP)
@@ -159,8 +174,10 @@ class VGG(MySlide):
             images.append(image)
 
             top_texts.append(top_text)
-            bottom_text = Tex(texts[i]).scale(0.5)
-            bottom_text.next_to(image, DOWN, buff=0.2)
+            bottom_text = BulletedList(*texts[i]).scale(0.5)
+            bottom_text[-1].set_color(RED)
+            # bottom_text = Tex(texts[i]).scale(0.5)
+            bottom_text.next_to(image, RIGHT, buff=0.2)
             bottom_texts.append(bottom_text)
 
         group_images = Group(
@@ -170,8 +187,8 @@ class VGG(MySlide):
             ]
         )
         # group_images.scale_to_fit_width(config.frame_width * 0.4)
-        group_images.arrange(DOWN, buff=0.5).move_to(ORIGIN).next_to(
-            vgg_model, RIGHT, buff=1.5
+        group_images.arrange(DOWN, buff=1).move_to(ORIGIN).next_to(
+            vgg_model, RIGHT, buff=1
         )
 
         # for i in range(2):

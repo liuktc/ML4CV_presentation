@@ -4,15 +4,18 @@ from templates import SlideTemplate
 from vgg import VGG
 from layer_mixing import LayerMixing
 from layer_mixing_table import LayerMixingTable
-from title import Title
+from title import TitleSlide
 from grad_cam import GradCAM
 from mixing_architecture import MixingArchitecture
 from erf import ERF
 from upscaling import Upscaling
+from qualitative_results import QualitativeResults
 
 # import light_theme
 from metrics import AvgDrop_ROAD, Coherency, Complexity, CompositeMetrics
 from results import Results
+
+from settings import *
 
 # TITLE = "Explainable AI (XAI)"
 # NAME = "Luca Domeniconi"
@@ -32,9 +35,10 @@ class ExampleScene(SlideTemplate):
         )
 
     def construct(self):
-        title = Title(self)
+        self.wait_time_between_slides = 0.1
+        title = TitleSlide(self)
         title.construct(
-            title_str="Computer Vision Explainability",
+            title_str="High Resolution Class Activation Mapping",
             name="Luca Domeniconi",
             date_text="April 24, 2025",
         )
@@ -201,6 +205,14 @@ class ExampleScene(SlideTemplate):
         # ##################################################
         # # # Slide 8
         # # ##################################################
+        self.change_title_and_add_page_number("Qualitative Results")
+        qualitative_results = QualitativeResults(self)
+        qualitative_results.construct()
+        self.next_slide()
+
+        # ###################################################
+        # # Slide 9
+        # #####################################################
         self.change_title_and_add_page_number("Future Work")
         content = r"""\begin{itemize}
         \item- Repeat the experiments with different models (e.g., ResNet family, SwinTransformer, etc.)

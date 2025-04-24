@@ -3,6 +3,9 @@ import numpy as np
 from my_scene import MySlide
 from utils import get_square_corners
 
+from settings import *
+
+
 VGG11_LAYERS = [
     ("conv", (64, 224, 224)),
     # ("conv", (64, 224, 224)),

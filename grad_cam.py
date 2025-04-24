@@ -4,6 +4,8 @@ from my_scene import MySlide
 from templates import SlideTemplate
 from utils import right_angle_arrow_custom
 
+from settings import *
+
 
 class GradCAM(MySlide):
     def construct(self):

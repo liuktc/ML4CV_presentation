@@ -6,6 +6,8 @@ from utils import right_angle_arrow_custom
 # from light_theme import *
 from templates import SlideTemplate
 
+from settings import *
+
 
 class AvgDrop_ROAD(MySlide):
     def construct(self):

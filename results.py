@@ -4,6 +4,8 @@ from my_scene import MySlide
 from utils import right_angle_arrow_custom
 # from light_theme import *
 
+from settings import *
+
 
 class Results(MySlide):
     def construct(self):

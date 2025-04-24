@@ -7,6 +7,8 @@ from templates import SlideTemplate
 from utils import right_angle_arrow_custom
 # from light_theme import *
 
+from settings import *
+
 
 def arrow_with_fixed_tip_and_stroke(start, end, tip_length=0.2, stroke_width=4):
     """Creates an arrow with a fixed tip length and stroke width."""
@@ -24,7 +26,7 @@ class MixingArchitecture(MySlide):
     def construct(self):
         # self.add_slide_template()
         # Add an input image
-        input_image = ImageMobject("./images/image.png").scale(0.5)
+        input_image = ImageMobject("./images/image_16.png").scale(0.6)
         input_image.to_edge(LEFT, buff=0.5)
         input_image.shift(0.3 * DOWN)
         input_image_label = Tex("Input Image").scale(0.6)
@@ -59,9 +61,9 @@ class MixingArchitecture(MySlide):
         cams_group.next_to(vgg_model, RIGHT, buff=0.5)
 
         attribution_maps = [
-            ImageMobject(f"./images/attribution_map_layer_{i}.png").scale_to_fit_width(
-                2
-            )
+            ImageMobject(
+                f"./images/attribution_map_layer_{i}_16.png"
+            ).scale_to_fit_width(2)
             for i in [20, 15, 10, 5]
         ]
         attribution_maps_group = Group(*attribution_maps)
@@ -79,7 +81,7 @@ class MixingArchitecture(MySlide):
         grid.next_to(vgg_model, RIGHT, buff=1)
 
         attribution_maps_text = (
-            Tex(r"Attribution Maps")
+            Tex(r"Upsampled\\Attribution Maps")
             .scale(0.6)
             .move_to(attribution_maps_group.get_center())
             .next_to(attribution_maps_group, UP, buff=0.1)
@@ -116,7 +118,7 @@ class MixingArchitecture(MySlide):
 
         mixed_attribution_maps = [
             ImageMobject(
-                f"./images/mixed_attribution_map_layer_{i}.png"
+                f"./images/mixed_attribution_map_layer_{i}_16.png"
             ).scale_to_fit_width(2)
             for i in [20, 15, 10, 5]
         ]
@@ -126,7 +128,7 @@ class MixingArchitecture(MySlide):
         mixed_attribution_maps_group.scale_to_fit_height(config.frame_height * 0.7)
 
         mixed_attribution_maps_text = (
-            Tex(r"Filtered\\Attribution Maps")
+            Tex(r"HighResCAM")
             .scale(0.6)
             .move_to(mixed_attribution_maps_group.get_center())
             .next_to(mixed_attribution_maps_group, UP, buff=0.1)

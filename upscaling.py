@@ -3,6 +3,8 @@ import numpy as np
 from my_scene import MySlide
 from utils import get_square_corners
 
+from settings import *
+
 
 class Upscaling(MySlide):
     def construct(self):
